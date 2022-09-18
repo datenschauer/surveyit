@@ -1,0 +1,16 @@
+<%- include("../includes/head.ejs") %>
+
+<article xmlns="http://www.w3.org/1999/html">
+    <form action="/svy_fricke_themen_ru/p1" method="get">
+        <input class="hidden" name="_csrf" value="<%= csrfToken %>">
+    <section>
+        <h1>Kurze Befragung zu „Themen im RU“</h1>
+        <p>Im Religionsunterricht streben Lehrkräfte Ziele an. Diese sind bereits empirisch gut erforscht. Sie geben die grobe Richtung an, wohin man mit den Schülerinnen und Schülern möchte.</p>
+        <p>In dieser Befragung geht es um die Themen, die Lehrkräfte gerne für den Unterricht auswählen. Zwar geben die Lehr- und Bildungspläne Lernbereiche und Inhalte vor, an die man sich halten muss. Aber als Lehrkraft hat man einen Spielraum, was die Auswahl, Schwerpunksetzung und Konkretisierung der Themen betrifft. Manche Themen liegen ja auch quer zu Lernbereichen der Lehrpläne oder werden von ihnen nicht explizit genannt.
+        </p>
+        <button type="submit">Umfrage starten</button>
+    </section>
+    </form>
+</article>
+
+<%- include("../includes/end.ejs") %>
