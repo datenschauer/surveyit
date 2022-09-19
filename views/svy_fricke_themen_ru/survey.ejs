@@ -1,0 +1,389 @@
+<%- include("../includes/head.ejs") %>
+
+<form action="/<%= survey.name %>/<%= answer.uuid %>" method="post">
+    <input type="text" class="hidden" name="_csrf" value="<%= csrfToken %>">
+    <input type="text" class="hidden" name="survey-name" value="<%= survey.name %>">
+    <input type="text" class="hidden" name="uuid" value="<%= answer.uuid %>">
+
+    <!----------- Seite 1: Themen des RU --------------------->
+    <div class="page-wrapper" id="p1">
+        <div class="progress-wrapper">
+            <div class="progress-start filled">&nbsp;</div>
+            <div class="progress-middle">&nbsp;</div>
+            <div class="progress-middle">&nbsp;</div>
+            <div class="progress-end">&nbsp;</div>
+        </div>
+        <div class="intro">
+            <h3>Ihre Themen:</h3>
+            <p>
+                Wir möchten nun wissen, welche Themen <em>Sie</em> gerne unterrichten. <strong>Gerne</strong> unterrichten – vielleicht weil diese Themen Sie selbst interessieren oder weil Sie diese Themen wichtig für den RU finden oder weil die Themen in der Interaktion mit den Schüler*innen gut laufen.
+            </p>
+            <p><strong>Welche Themen sind das?</strong></p>
+            <p>
+                Schreiben Sie bitte möglichst konkret, etwa nach dem Muster:
+                <ul>
+                <li>"<em>Thema X</em> mit Schwerpunkt auf ..."</li>
+                <li>oder: "<em>Thema Y</em> und die Frage nach ..."</li>
+            </ul>
+            </p>
+            <p>
+                Schreiben Sie so viele Themen auf, wie Sie möchten, bis Sie ein Gefühl der Sättigung erreicht haben. Doppelungen und Überschneidungen sind okay.
+                Setzen Sie bei jedem Thema bitte einen Haken, warum Sie denken, dass es wichtig ist.
+            </p>
+            <p>Mit dem <span class="material-symbols-outlined plus inline">add_circle</span>-Zeichen können Sie ein neues Thema hinzufügen. Mit dem <span class="material-symbols-outlined minus inline">cancel</span>-Zeichen auch wieder entfernen.</p>
+        </div>
+        <div id="themes">
+            <div class="theme-wrapper">
+                <input type="text" name="theme_1" id="theme_1" placeholder="Thema X mit Schwerpunkt auf ... / und die Frage ...">
+                <label>Weil ich es interessant finde: <input type="checkbox" name="interesting_1"></label>
+                <label>Weil es wichtig für den RU ist: <input type="checkbox" name="important_1"></label>
+                <label>Weil es gut bei Schüler*innen läuft: <input type="checkbox" name="pupil_1"></label>
+                <label>Sonstiger Grund: <input type="checkbox" name="alternative_1"></label>
+            </div>
+        </div>
+        <div class="plus" id="plus">
+            <p><span class="material-symbols-outlined plus">add_circle</span></p>
+        </div>
+        <div class="buttons">
+            <div class="button" id="p1-p2">weiter</div>
+        </div>
+    </div>
+
+    <!------------ Seite 2: welche Themen kamen neu hinzu? ----------->
+
+    <div class="page-wrapper hidden" id="p2">
+        <div class="progress-wrapper">
+            <div class="progress-start filled">&nbsp;</div>
+            <div class="progress-middle filled">&nbsp;</div>
+            <div class="progress-middle">&nbsp;</div>
+            <div class="progress-end">&nbsp;</div>
+        </div>
+
+        <div class="intro">
+            <h3>Neu hinzugekommene Themen:</h3>
+            <p>Folgend sehen Sie eine Liste, der von Ihnen eingegebenen Themen.</p>
+            <p><strong>Setzen Sie bitte einen Haken</strong> bei denjenigen, die Ihrer Erfahrung nach erst in den letzten (ca.) <em>3&ndash;5 Jahren neu hinzugekommen</em> sind.</p>
+        </div>
+
+        <ul id="added-themes">
+        </ul>
+
+        <div class="buttons">
+            <div class="button" id="p2-p1">zurück</div>
+            <div class="button" id="p2-p3">weiter</div>
+        </div>
+
+    </div>
+
+    <!-- Seite 3: welche Themen werden nicht mehr so gerne unterrichtet -->
+
+    <div class="page-wrapper hidden" id="p3">
+        <div class="progress-wrapper">
+            <div class="progress-start filled">&nbsp;</div>
+            <div class="progress-middle filled">&nbsp;</div>
+            <div class="progress-middle filled">&nbsp;</div>
+            <div class="progress-end">&nbsp;</div>
+        </div>
+
+        <div class="intro">
+            <h3>Weggefallene Themen:</h3>
+            <p>Welche Themen nehmen Sie heute nicht mehr so gerne wie noch vor (ca.) 3-5 Jahren durch?</p>
+            <p>Hier können Sie wieder so viele Themen hinzufügen, wie Sie wollen.</p>
+            <p>Es reicht ein Stichwort oder eine Überschrift.</p>
+        </div>
+
+        <div id="lost-themes">
+            <div class="theme-wrapper">
+                <input type="text" name="lost_theme_1" id="lost_theme_1" placeholder="Thema X mit Schwerpunkt auf ... / und die Frage ...">
+            </div>
+        </div>
+
+        <div class="plus" id="lost-plus">
+            <p><span class="material-symbols-outlined plus">add_circle</span></p>
+        </div>
+
+        <div class="buttons">
+            <div class="button" id="p3-p2">zurück</div>
+            <div class="button" id="p3-p4">weiter</div>
+        </div>
+    </div>
+
+    <!-- Seite 4: berufssoziologische Angaben -->
+
+    <div class="page-wrapper hidden" id="p4">
+        <div class="progress-wrapper">
+            <div class="progress-start filled">&nbsp;</div>
+            <div class="progress-middle filled">&nbsp;</div>
+            <div class="progress-middle filled">&nbsp;</div>
+            <div class="progress-end filled">&nbsp;</div>
+        </div>
+
+        <div class="intro">
+            <h3>Berufssoziologische Angaben:</h3>
+            <p>Erzählen Sie uns bitte noch etwas über Ihren beruflichen Status.</p>
+        </div>
+
+        <label>Ich unterrichte:
+            <select name="Fach">
+                <option value="na">Keine Angabe</option>
+                <option value="ev_rel">Evangelische Religionslehre</option>
+                <option value="kath_rel">Katholische Religionslehre</option>
+            </select>
+        </label>
+
+        <label>hauptsächliche in folgender Schulart:
+            <select name="Schulart">
+                <option value="na">Keine Angabe</option>
+                <option value="GS">Grundschule</option>
+                <option value="MS">Mittelschule</option>
+                <option value="RS">Realschule</option>
+                <option value="GES">Gesamtschule</option>
+                <option value="BS">Berufsschule</option>
+                <option value="FOS">Fachoberschule</option>
+                <option value="GYM">Gymnasium</option>
+            </select>
+        </label>
+
+        <label id="zweitfach">Daneben unterrichte ich (falls zutreffend):
+            <select name="Zweitfach">
+                <option value="na">---</option>
+                <option value="ev_rel">Evangelische Religionslehre</option>
+                <option value="kath_rel">Katholische Religionslehre</option>
+            </select>
+        </label>
+        <label class="hidden" id="schulart_zweitfach">auch in folgender Schulart (Mehrfachnennung möglich)
+            <select name="Schulart_Zweitfach" multiple>
+                <option value="na">Keine Angabe</option>
+                <option value="GS">Grundschule</option>
+                <option value="MS">Mittelschule</option>
+                <option value="RS">Realschule</option>
+                <option value="GES">Gesamtschule</option>
+                <option value="BS">Berufsschule</option>
+                <option value="FOS">Fachoberschule</option>
+                <option value="GYM">Gymnasium</option>
+            </select>
+        </label>
+
+        <label id="lehrkraft">Ich bin:
+            <select name="Lehrkraft">
+                <option value="na">Keine Angabe</option>
+                <option value="staatlich">staatliche Lehrkraft</option>
+                <option value="kirchlich">kirchliche Lehrkraft</option>
+            </select>
+        </label>
+        <label id="staatlich" class="hidden">
+            <select name="staatlich">
+                <option value="hauptfach">und Religion ist eines meiner Hauptfächer/Unterrichtsfächer</option>
+                <option value="nebenfach">und Religion ist eines meiner Nebenfächer/Didaktifächer</option>
+            </select>
+        </label>
+        <label id="kirchlich" class="hidden">
+            <select name="kirchlich">
+                <option value="religionspaed">und zwar Religionspädagoge/in, Pastoralreferent/in, Diakon/in</option>
+                <option value="regel_pfarrer">und zwar Pfarrer/in (im Regelstundenmaß)</option>
+                <option value="schul_pfarrer">und zwar Pfarrer/in (überwiegend im Schuldienst)</option>
+                <option value="katechet">und zwar Katechet</option>
+            </select>
+        </label>
+
+        <label>Jahre der selbstverantworteten Unterrichtspraxis:
+            <select name="unterrichtspraxis">
+                <option value="na">Keine Angabe</option>
+                <option value="lt5">unter 5</option>
+                <option value="5-10">5 bis 10</option>
+                <option value="11-20">11 bis 20</option>
+                <option value="gt20">über 20</option>
+            </select>
+        </label>
+
+        <label>Meine Konfession ist:
+            <select name="konfession">
+                <option value="na">Keine Angabe</option>
+                <option value="ev">evangelisch</option>
+                <option value="kath">katholisch</option>
+                <option value="sonst">sonstiges</option>
+            </select>
+        </label>
+
+        <label>Folgendem fühle ich mich zugehörig:
+            <select name="geschlecht">
+                <option value="na">Keine Angabe</option>
+                <option value="w">weiblich</option>
+                <option value="m">männlich</option>
+                <option value="d">divers</option>
+            </select>
+        </label>
+
+        <div class="buttons">
+            <div class="button" id="p4-p3">zurück</div>
+            <button type="submit" id="submit">abschicken</button>
+        </div>
+    </div>
+
+</form>
+
+<script>
+    // prevent entering enter key to send form
+    window.addEventListener('keydown',function(e) {
+        if (e.keyIdentifier==='U+000A'||e.keyIdentifier==='Enter'||e.keyCode===13) {
+            if(e.target.nodeName==='INPUT' && e.target.type==='text') {
+                e.preventDefault();return false;}
+        }
+        },true);
+
+
+    const turnPage = function(previous, next) {
+        previous.classList.add("hidden");
+        next.classList.remove("hidden");
+    };
+
+    let themeCount = 1;
+    let lostThemeCount = 1;
+
+    const btnP1P2 = document.getElementById("p1-p2");
+    const btnP2P1 = document.getElementById("p2-p1");
+    const btnP2P3 = document.getElementById("p2-p3");
+    const btnP3P2 = document.getElementById("p3-p2");
+    const btnP3P4 = document.getElementById("p3-p4");
+    const btnP4P3 = document.getElementById("p4-p3");
+    const btnSubmit = document.getElementById("submit");
+    const btnPlus = document.getElementById("plus");
+    const btnLostPlus = document.getElementById("lost-plus");
+
+    const pageP1 = document.getElementById("p1");
+    const pageP2 = document.getElementById("p2");
+    const pageP3 = document.getElementById("p3");
+    const pageP4 = document.getElementById("p4");
+    btnP1P2.addEventListener("click", () => { turnPage(pageP1, pageP2) });
+    btnP2P1.addEventListener("click", () => { turnPage(pageP2, pageP1) });
+    btnP2P3.addEventListener("click", () => { turnPage(pageP2, pageP3) });
+    btnP3P2.addEventListener("click", () => { turnPage(pageP3, pageP2) });
+    btnP3P4.addEventListener("click", () => { turnPage(pageP3, pageP4) });
+    btnP4P3.addEventListener("click", () => { turnPage(pageP4, pageP3) });
+
+    const addThemeToChooseImportant = function(ev) {
+        const addedThemes = document.getElementById("added-themes");
+        const themeId = ev.target.id;
+        const listItem = document.createElement("li");
+        const label = document.createElement("label");
+        label.textContent = ev.target.value;
+        const inputCheck = document.createElement("input");
+        inputCheck.type = "checkbox";
+        inputCheck.id = `${themeId}_got_important`;
+        label.appendChild(inputCheck);
+        listItem.appendChild(label);
+        addedThemes.appendChild(listItem);
+    }
+
+    const firstThemeInput = document.getElementById("theme_1");
+    firstThemeInput.addEventListener("change", (ev) => { addThemeToChooseImportant(ev) });
+
+    const deleteTheme = function(ev) {
+        const theme = ev.target.parentElement.parentElement.parentElement;
+        const themeId = theme.children[1].id;
+        const addedLabel = document.getElementById(`${themeId}_got_important`);
+        theme.remove();
+        if (addedLabel) {
+            addedLabel.parentElement.parentElement.remove();
+        }
+    }
+
+    const addLostTheme = function () {
+        lostThemeCount += 1;
+
+        const addThemeArea = document.getElementById("lost-themes");
+
+        const themeWrapper = document.createElement("div");
+        themeWrapper.classList.add("theme-wrapper");
+
+        const minusBtn = document.createElement("div");
+        minusBtn.classList.add("minus");
+        const minusP = document.createElement("p");
+        const minusSpan = document.createElement("span");
+        minusSpan.classList.add("material-symbols-outlined");
+        minusSpan.classList.add("minus");
+        minusSpan.textContent = "cancel";
+        minusP.appendChild(minusSpan);
+        minusBtn.appendChild(minusP);
+        minusBtn.addEventListener("click", (ev) => { deleteTheme(ev) });
+        themeWrapper.appendChild(minusBtn);
+
+        const themeInput = document.createElement("input");
+        themeInput.type = "text";
+        themeInput.name = `lost_theme_${themeCount}`;
+        themeInput.id = `lost_theme_${themeCount}`;
+        themeInput.placeholder = "Thema X mit Schwerpunkt auf ... / und die Frage ..."
+        themeWrapper.appendChild(themeInput);
+
+        addThemeArea.appendChild(themeWrapper);
+    }
+
+    const addTheme = function () {
+        themeCount += 1;
+
+        const addThemeArea = document.getElementById("themes");
+
+        const themeWrapper = document.createElement("div");
+        themeWrapper.classList.add("theme-wrapper");
+
+        const minusBtn = document.createElement("div");
+        minusBtn.classList.add("minus");
+        const minusP = document.createElement("p");
+        const minusSpan = document.createElement("span");
+        minusSpan.classList.add("material-symbols-outlined");
+        minusSpan.classList.add("minus");
+        minusSpan.textContent = "cancel";
+        minusP.appendChild(minusSpan);
+        minusBtn.appendChild(minusP);
+        minusBtn.addEventListener("click", (ev) => { deleteTheme(ev) });
+        themeWrapper.appendChild(minusBtn);
+
+        const themeInput = document.createElement("input");
+        themeInput.type = "text";
+        themeInput.name = `theme_${themeCount}`;
+        themeInput.id = `theme_${themeCount}`;
+        themeInput.placeholder = "Thema X mit Schwerpunkt auf ... / und die Frage ..."
+        themeInput.addEventListener("change", (ev) => { addThemeToChooseImportant(ev) });
+        themeWrapper.appendChild(themeInput);
+
+        const interestLabel = document.createElement("label");
+        interestLabel.textContent = "Weil ich es interessant finde: "
+        const interestCheck = document.createElement("input");
+        interestCheck.type = "checkbox";
+        interestCheck.name = `interesting_${themeCount}`;
+        interestLabel.appendChild(interestCheck);
+        themeWrapper.appendChild(interestLabel);
+
+        const importantLabel = document.createElement("label");
+        importantLabel.textContent = "Weil es wichtig für den RU ist: ";
+        const importantCheck = document.createElement("input");
+        importantCheck.type = "checkbox";
+        importantCheck.name = `important_${themeCount}`;
+        importantLabel.appendChild(importantCheck);
+        themeWrapper.appendChild(importantLabel);
+
+        const pupilLabel = document.createElement("label");
+        pupilLabel.textContent = "Weil es gut bei Schüler*innen läuft: ";
+        const pupilCheck = document.createElement("input");
+        pupilCheck.type = "checkbox";
+        pupilCheck.name = `pupil_${themeCount}`;
+        pupilLabel.appendChild(pupilCheck);
+        themeWrapper.appendChild(pupilLabel);
+
+        const alternativeLabel = document.createElement("label");
+        alternativeLabel.textContent = "Sonstiger Grund: ";
+        const alternativeCheck = document.createElement("input");
+        alternativeCheck.type = "checkbox";
+        alternativeCheck.name = `alternative_${themeCount}`;
+        alternativeLabel.appendChild(alternativeCheck);
+        themeWrapper.appendChild(alternativeLabel);
+
+        addThemeArea.appendChild(themeWrapper);
+    }
+
+    btnPlus.addEventListener("click", () => { addTheme() });
+
+    btnLostPlus.addEventListener("click", () => { addLostTheme() });
+</script>
+
+<%- include("../includes/end.ejs") %>

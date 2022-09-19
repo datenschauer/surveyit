@@ -1,6 +1,7 @@
 const { startSurvey } = require("./surveyStarter");
 const Survey = require("../models/survey");
 const surveys = require("../util/surveys");
+const { v4: uuidv4 } = require("uuid");
 
 exports.getSurveyStart = (req, res, next) => {
     const surveyName = req.params.survey;
@@ -14,7 +15,6 @@ exports.getSurveyStart = (req, res, next) => {
                 return name === surveyName
             });
             if (surveyFound.length >= 1) {
-                console.log(surveyFound);
                 startSurvey(
                     surveyFound[0].name,
                     surveyFound[0].start,
@@ -31,13 +31,29 @@ exports.getSurveyStart = (req, res, next) => {
 }
 
 exports.postSurveyStart = (req, res) => {
+    const uuid = uuidv4();
+    res.redirect(`/${req.params.survey}/${uuid}`);
+}
+
+exports.getCurrentSurvey = (req, res) => {
+    const survey = surveys.filter(({ name }) => name === req.params.survey)[0]
+    const answer = {
+        uuid: req.params.uuid,
+        started: Date.now(),
+        ip: req.socket.remoteAddress,
+        entries: [],
+    }
+    res.render(`${survey.name}/survey.ejs`, {
+        path: `${survey.name}/${answer.uuid}`,
+        survey: survey,
+        answer: answer,
+    })
+}
+
+exports.postSaveCurrentSurvey = (req, res) => {
 
 }
 
-exports.getSurveyPage = (req, res) => {
-    const { survey, page } = req.params;
-    console.log(survey, page);
-    res.render(`${survey}/${page}`, {
-        path: `/${survey}/${page}`,
-    })
+exports.getThankYouPage = (req, res) => {
+
 }

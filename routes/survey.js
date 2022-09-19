@@ -9,8 +9,14 @@ router.get("/:survey", (req, res) => {
     res.redirect(`/${surveyName}/start`);
 });
 
-router.get("/:survey/start", surveyController.getSurveyStart)
+router.get("/:survey/start", surveyController.getSurveyStart);
 
-router.get("/:survey/:page", surveyController.getSurveyPage)
+router.post("/:survey/start", surveyController.postSurveyStart);
+
+router.get("/:survey/:uuid", surveyController.getCurrentSurvey);
+
+router.post("/:survey/:uuid", surveyController.postSaveCurrentSurvey);
+
+router.get("/:survey/thank_you", surveyController.getThankYouPage);
 
 module.exports = router;

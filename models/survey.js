@@ -17,7 +17,10 @@ const surveySchema = new Schema({
         next: String,
     }],
     answers: [{
-        date: Date,
+        uuid: String,
+        started: Date,
+        finished: Date,
+        ip: String,
         entries: {
             page: String,
         }
