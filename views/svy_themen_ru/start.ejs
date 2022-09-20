@@ -1,0 +1,28 @@
+<%- include("../includes/head.ejs") %>
+
+<article xmlns="http://www.w3.org/1999/html">
+    <form action="/<%= survey %>/start" method="post">
+        <input class="hidden" name="_csrf" value="<%= csrfToken %>">
+
+        <div class="logo-banner">
+            <div class="logo">
+                <img src="/img/ur_logo.png">
+            </div>
+            <div class="banner-text">
+                <p><strong>Universität Regensburg</strong></p>
+                <p>Institut für Evangelische Theologie</p>
+                <p>Lehrstuhl für Religionspädagogik</p>
+                <p><a href="https://www.uni-regensburg.de/philosophie-kunst-geschichte-gesellschaft/evangelische-theologie/lehrstuhl-fuer-religionspaedagogik/lehrstuhlteam/index.html" target="_blank">Kontakt</a></p>
+            </div>
+        </div>
+    <section>
+        <h1>Kurze Befragung zu „Themen im RU“</h1>
+        <p>Im Religionsunterricht streben Lehrkräfte Ziele an. Diese sind bereits empirisch gut erforscht. Sie geben die grobe Richtung an, wohin man mit den Schülerinnen und Schülern möchte.</p>
+        <p>In dieser Befragung geht es um die <em>Themen</em>, die Lehrkräfte <em>gerne</em> für den Unterricht auswählen. Zwar geben die Lehr- und Bildungspläne Lernbereiche und Inhalte vor, an die man sich halten muss. Aber als Lehrkraft hat man einen Spielraum, was die Auswahl, Schwerpunksetzung und Konkretisierung der Themen betrifft. Manche Themen liegen ja auch quer zu Lernbereichen der Lehrpläne oder werden von ihnen nicht explizit genannt.
+        </p>
+        <button type="submit">Umfrage starten</button>
+    </section>
+    </form>
+</article>
+
+<%- include("../includes/end.ejs") %>

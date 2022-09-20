@@ -11,20 +11,7 @@ const surveySchema = new Schema({
     },
     start: Date,
     end: Date,
-    pages: [{
-        shortHand: String,
-        previous: String,
-        next: String,
-    }],
-    answers: [{
-        uuid: String,
-        started: Date,
-        finished: Date,
-        ip: String,
-        entries: {
-            page: String,
-        }
-    }]
+    answers: [],
 })
 
 module.exports = mongoose.model("Survey", surveySchema);
