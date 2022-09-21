@@ -1,4 +1,21 @@
 {
+  "name": "surveyit",
+  "version": "0.0.1",
+  "description": "surveys for our research group",
+  "main": "app.js",
+  "keywords": [
+    "survey",
+    "research",
+    "customize"
+  ],
+  "author": "Stefan Boehringer",
+  "license": "MIT",
+  "engines": {
+    "node": "^16.7.0"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "connect-flash": "^0.1.1",
     "connect-mongodb-session": "^3.1.1",
