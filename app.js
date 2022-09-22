@@ -8,6 +8,7 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 const csrf = require("csurf");
 const flash = require("connect-flash"); // for flashing messages to seesions by redirect (e.g. errors to the user)
 const { timeIntervals } = require("./util/constants");
+const errorController = require("./controllers/errorController");
 
 // INSTANTIATE express app
 const app = express();
@@ -59,6 +60,13 @@ const setLocalVariables = (req, res, next) => {
 app.use(setLocalVariables);
 
 app.use("/", indexRoutes);
+app.use(errorController.get404);
+
+app.use((error, req, res, next) => {
+    if (error.httpStatusCode === 500) {
+        errorController.get500(req, res, next);
+    }
+})
 
 const port = 8008;
 

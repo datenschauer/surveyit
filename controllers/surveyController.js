@@ -2,16 +2,22 @@ const { startSurvey } = require("./surveyStarter");
 const Survey = require("../models/survey");
 const surveys = require("../util/surveys");
 const { v4: uuidv4 } = require("uuid");
+const {handleError} = require("./errorController");
 
 exports.getSurveyStart = (req, res, next) => {
     const surveyName = req.params.survey;
-    console.log(req.session);
     Survey.findOne({name: surveyName}).then((survey) => {
         if (survey) {
-            return res.render(`${surveyName}/start`, {
-                path: `/${surveyName}/start`,
-                survey: surveyName,
-            })
+            const cur_time = Date.now();
+            if (cur_time > survey.start && cur_time < survey.end) {
+                return res.render(`${surveyName}/start`, {
+                    path: `/${surveyName}/start`,
+                    survey: surveyName,
+                    })
+            } else {
+                return (cur_time < survey.start) ? res.render("surveynotstarted", {surveyName: surveyName})
+                    : res.render("surveyended", {surveyName: surveyName});
+            }
         } else {
             const surveyFound = surveys.filter(({name}) => {
                 return name === surveyName
@@ -27,10 +33,10 @@ exports.getSurveyStart = (req, res, next) => {
                     survey: surveyName,
                 });
             } else {
-            console.log("No Survey found or can be started");
-            next();}
+                res.render("nosurveyfound", {surveyName: surveyName});
+            }
         }
-    }).catch(err => console.log(err))
+    }).catch(err => handleError(err, next));
 }
 
 exports.postSurveyStart = (req, res) => {
@@ -45,23 +51,29 @@ exports.postSurveyStart = (req, res) => {
     res.redirect(`/${req.params.survey}/${uuid}`);
 }
 
-exports.getCurrentSurvey = (req, res) => {
-    console.log(req.session);
-    const survey = surveys.filter(({ name }) => name === req.params.survey)[0]
-    const answer = {
-        uuid: req.params.uuid,
-        started: Date.now(),
-        ip: req.socket.remoteAddress,
-        entries: [],
-    }
-    res.render(`${survey.name}/survey.ejs`, {
-        path: `${survey.name}/${answer.uuid}`,
-        survey: survey,
-        answer: answer,
-    })
+exports.getCurrentSurvey = (req, res, next) => {
+    Survey.findOne({name: req.params.survey}).then(survey => {
+    const givenAnswers = survey.answers;
+    const currentUserAlreadyAnswered = givenAnswers.filter(({uuid}) => uuid === req.session.uuid);
+    if (currentUserAlreadyAnswered.length >= 1) {
+        return res.render("alreadyanswered");
+    } else {
+        //const survey = surveys.filter(({name}) => name === req.)[0]
+        const answer = {
+            uuid: req.params.uuid,
+            started: Date.now(),
+            ip: req.socket.remoteAddress,
+            entries: [],
+        }
+        res.render(`${survey.name}/survey.ejs`, {
+            path: `${survey.name}/${answer.uuid}`,
+            survey: survey,
+            answer: answer,
+        })
+    }}).catch(err => handleError(err, next));
 }
 
-exports.postSaveCurrentSurvey = (req, res) => {
+exports.postSaveCurrentSurvey = (req, res, next) => {
     const finished = Date.now();
     Survey.findOne({name: req.body.survey_name}).then((survey) => {
         const entry = {};
@@ -78,7 +90,7 @@ exports.postSaveCurrentSurvey = (req, res) => {
         survey.answers.push(entry);
 
         survey.save().then(res.redirect("/thank_you"));
-    }).catch(err => {console.log(err)})
+    }).catch(err => {handleError(err, next)})
 }
 
 function getThemes(object) {

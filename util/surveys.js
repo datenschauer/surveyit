@@ -1,7 +1,7 @@
 const surveys = [
     {
         name: "svy_themen_ru",
-        start: new Date("2022-10-01"),
+        start: new Date("2022-09-21"),
         end: new Date("2022-11-15"),
         pages: [
             {

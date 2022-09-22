@@ -10,19 +10,49 @@
             </div>
             <div class="banner-text">
                 <p><strong>Universität Regensburg</strong></p>
+                <p>Prof. Dr. Michael Fricke</p>
                 <p>Institut für Evangelische Theologie</p>
                 <p>Lehrstuhl für Religionspädagogik</p>
                 <p><a href="https://www.uni-regensburg.de/philosophie-kunst-geschichte-gesellschaft/evangelische-theologie/lehrstuhl-fuer-religionspaedagogik/lehrstuhlteam/index.html" target="_blank">Kontakt</a></p>
             </div>
         </div>
     <section>
-        <h1>Kurze Befragung zu „Themen im RU“</h1>
-        <p>Im Religionsunterricht streben Lehrkräfte Ziele an. Diese sind bereits empirisch gut erforscht. Sie geben die grobe Richtung an, wohin man mit den Schülerinnen und Schülern möchte.</p>
-        <p>In dieser Befragung geht es um die <em>Themen</em>, die Lehrkräfte <em>gerne</em> für den Unterricht auswählen. Zwar geben die Lehr- und Bildungspläne Lernbereiche und Inhalte vor, an die man sich halten muss. Aber als Lehrkraft hat man einen Spielraum, was die Auswahl, Schwerpunksetzung und Konkretisierung der Themen betrifft. Manche Themen liegen ja auch quer zu Lernbereichen der Lehrpläne oder werden von ihnen nicht explizit genannt.
-        </p>
+        <h1>Kurze Befragung zu „Themen im Religionsunterricht“</h1>
+
+        <p>Im Religionsunterricht geht es einerseits um <em>Ziele</em>, die von Lehrkräften angestrebt werden. Sie geben die grobe Richtung an, was Lehrkräften wichtig ist und welche Kompetenzen sie bei ihren Schülerinnen und Schülern fördern möchten. Diese Zielsetzungen sind empirisch bereits gut erforscht.</p>
+        <p>Anderseits geht es im Religionsunterricht auch um die <em>Themen</em>, die unterrichtet werden. Hierzu gibt es noch kaum empirische Daten.</p>
+        <p>Zwar geben die Lehr- und Bildungspläne Lernbereiche und Inhalte vor. Aber Lehrkräfte haben gemäß ihrer didaktischen Freiheit beachtliche Spielräume, was die Auswahl, Schwerpunktsetzung und Konkretisierung der Themen betrifft. Manche der unterrichteten Themen liegen auch quer zu den Lernbereichen oder werden von den Lehrplänen nur implizit angeboten.</p>
+        <p><strong>Die nachfolgende Befragung</strong> hat das Ziel, mehr darüber zu erfahren, welche konkreten Themen von Religionslehrkräften unterrichtet werden. Wir haben diese Frage noch zugespitzt, nämlich, welche Themen <em>gerne unterrichtet</em> werden.</p>
+
+        <p><strong>Die Befragung dauert ca. 15-20 Minuten. Wir danken Ihnen sehr für Ihre Mitwirkung.</strong></p>
+
         <button type="submit">Umfrage starten</button>
+
     </section>
+        <div class="expand" id="expand"><span class="material-symbols-outlined">expand_more</span>
+            Hinweis zum Umgang mit mitgeteilten Daten
+            <div class="more hidden" id="more">
+                Ihre Daten sind anonymisiert und können Ihnen nicht persönlich zugeordnet werden. Name, Wohnadresse und Geburtsdatum werden nicht erhoben. Mit der Teilnahme erklären Sie sich einverstanden, dass die Daten im Rahmen wissenschaftlicher Publikationen veröffentlicht werden dürfen.
+            </div>
+        </div>
     </form>
+
 </article>
+
+<script>
+    const more = document.getElementById("more");
+    const expand = document.getElementById("expand")
+    document.getElementById("expand").addEventListener("click", () => {
+        if (!expand.className.includes("less")) {
+            expand.classList.add("less");
+            expand.firstChild.textContent = "expand_less";
+            more.classList.remove("hidden");
+        } else {
+            expand.classList.remove("less");
+            expand.firstChild.textContent = "expand_more";
+            more.classList.add("hidden");
+        }
+    })
+</script>
 
 <%- include("../includes/end.ejs") %>
