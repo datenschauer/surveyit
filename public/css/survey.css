@@ -13,6 +13,10 @@ body {
     padding: 1.5rem;
     text-align: center;
 }
+.centered.borderless {
+    border: None;
+    box-shadow: None;
+}
 .hidden {
     display: none;
 }
@@ -106,6 +110,14 @@ div.minus:hover {
 .button:hover {
     cursor: pointer;
     background-color: var(--color-link);
+}
+button.disabled {
+    color: whitesmoke;
+    background-color: #b6b6b6;
+}
+button.disabled:hover {
+    cursor: not-allowed;
+    background-color: #b6b6b6;
 }
 div.buttons {
     margin-top: 1rem;

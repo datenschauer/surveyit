@@ -26,15 +26,25 @@
 
         <p><strong>Die Befragung dauert ca. 15-20 Minuten. Wir danken Ihnen sehr für Ihre Mitwirkung.</strong></p>
 
-        <button type="submit">Umfrage starten</button>
 
     </section>
+        <section>
         <div class="expand" id="expand"><span class="material-symbols-outlined">expand_more</span>
             Hinweis zum Umgang mit mitgeteilten Daten
             <div class="more hidden" id="more">
                 Ihre Daten sind anonymisiert und können Ihnen nicht persönlich zugeordnet werden. Name, Wohnadresse und Geburtsdatum werden nicht erhoben. Mit der Teilnahme erklären Sie sich einverstanden, dass die Daten im Rahmen wissenschaftlicher Publikationen veröffentlicht werden dürfen.
             </div>
         </div>
+            <div class="centered borderless">
+            <p>
+                <label for="read"><input type="checkbox" id="read" name="read"> Ich habe die Datenschutzhinweise gelesen und akzeptiere sie.</label>
+
+            </p>
+            <p>
+                <button type="submit" id="start-btn" disabled class="button disabled">Umfrage starten</button>
+            </p>
+            </div>
+        </section>
     </form>
 
 </article>
@@ -51,6 +61,20 @@
             expand.classList.remove("less");
             expand.firstChild.textContent = "expand_more";
             more.classList.add("hidden");
+        }
+    })
+
+    const readCheck = document.getElementById("read");
+    const startBtn = document.getElementById("start-btn");
+    readCheck.addEventListener("change", () => {
+        if (readCheck.checked === true) {
+            startBtn.classList.remove("disabled");
+            startBtn.disabled = false;
+            console.log("ENABLED! :-)")
+        } else {
+            startBtn.classList.add("disabled");
+            startBtn.disabled = true;
+            console.log("DISABLED :-(")
         }
     })
 </script>
