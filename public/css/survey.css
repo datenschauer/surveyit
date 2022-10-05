@@ -32,6 +32,9 @@ input[type="text"] {
 input[type="checkbox"] {
     margin-left: 10px;
 }
+input[type="password"] {
+    width: calc(100% - 25px);
+}
 label {
     margin-left: 10px;
 }

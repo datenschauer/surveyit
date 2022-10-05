@@ -1,0 +1,46 @@
+<%- include("../includes/head.ejs") %>
+
+<article xmlns="http://www.w3.org/1999/html">
+    <form action="/<%= survey %>/download" method="post">
+        <input class="hidden" name="_csrf" value="<%= csrfToken %>">
+
+        <div class="logo-banner">
+            <div class="logo">
+                <img src="/img/ur_logo.png">
+            </div>
+            <div class="banner-text">
+                <p><strong>Universität Regensburg</strong></p>
+                <p>Prof. Dr. Michael Fricke</p>
+                <p>Institut für Evangelische Theologie</p>
+                <p>Lehrstuhl für Religionspädagogik</p>
+                <p><a href="https://www.uni-regensburg.de/philosophie-kunst-geschichte-gesellschaft/evangelische-theologie/lehrstuhl-fuer-religionspaedagogik/lehrstuhlteam/index.html" target="_blank">Kontakt</a></p>
+            </div>
+        </div>
+        <section>
+            <label>
+                Geben Sie das Passwort für den Download ein:<br />
+                <input type="password" id="password"><br />
+                <button type="submit" class="button disabled" id="download-button" disabled>download</button>
+            </label>
+          <div class=<%= error ? "" : "hidden"%>>
+                <p class="error">Sie haben ein falsches Passwort eingegeben!</p>
+            </div>
+        </section>
+    </form>
+
+</article>
+<script>
+    const downloadButton = document.getElementById("download-button");
+    const passwordInput = document.getElementById("password");
+
+    passwordInput.addEventListener("input", () => {
+        if (passwordInput.value.length > 7) {
+            downloadButton.disabled = false;
+            downloadButton.classList.remove("disabled");
+        } else {
+            downloadButton.disabled = true;
+            downloadButton.classList.add("disabled");
+        }
+    })
+</script>
+<%- include("../includes/end.ejs") %>

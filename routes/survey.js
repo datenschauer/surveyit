@@ -13,6 +13,8 @@ router.get("/:survey", (req, res) => {
     res.redirect(`/${surveyName}/start`);
 });
 
+router.get("/:survey/download", surveyController.getSurveyDataDownload);
+
 router.get("/:survey/start", surveyController.getSurveyStart);
 
 router.post("/:survey/start", surveyController.postSurveyStart);

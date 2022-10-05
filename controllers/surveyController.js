@@ -93,6 +93,14 @@ exports.postSaveCurrentSurvey = (req, res, next) => {
     }).catch(err => {handleError(err, next)})
 }
 
+exports.getSurveyDataDownload = (req, res) => {
+    res.render(`${req.params.survey}/download`, {
+        path: `/${req.params.survey}/download`,
+        error: req.flash("error")[0],
+        survey: req.params.survey,
+    })
+}
+
 function getThemes(object) {
     const themes = {};
     let currentThemeNumber = 0;
