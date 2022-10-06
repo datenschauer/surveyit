@@ -101,6 +101,31 @@ exports.getSurveyDataDownload = (req, res) => {
     })
 }
 
+exports.postSurveyDataDownload = (req, res) => {
+    const surveyName = req.params.survey;
+    const password = req.body.password;
+    if (password === process.env.DOWNLOAD_PASS) {
+        Survey.findOne({name: surveyName}).then(surveyData => {
+            const bufferFile = createCSV(surveyData);
+            const currentDate = new Date();
+            const dateString = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`
+            const fileName = `${surveyName}_vom_${dateString}.csv`;
+            res.set({
+                "Content-Type": "text/csv",
+                "Content-Disposition": `attachment; filename=${fileName}`
+            });
+            res.send(bufferFile);
+        }).catch(err => console.log(err));
+    } else {
+        req.flash("error", true);
+        res.render(`${surveyName}/download`, {
+            path: `/${surveyName}/download`,
+            error: req.flash("error")[0],
+            survey: surveyName,
+        })
+    }
+}
+
 function getThemes(object) {
     const themes = {};
     let currentThemeNumber = 0;
@@ -150,4 +175,51 @@ function getDemographics(object) {
         }
     }
     return demographics;
+}
+
+function createCSV(data) {
+    const dateOptions = {
+        year: 'numeric', month: 'numeric', day: 'numeric',
+        hour: 'numeric', minute: 'numeric', second: 'numeric',
+        timeZone: 'Europe/Berlin'
+    }
+    let csv = "";
+    const header = "thema; th_interessant; th_wichtig; th_laeuft; th_sonstiges; th_neu; th_alt; dem_fach; " +
+        "dem_schulart; dem_lehrkraft; dem_staatlich; dem_kirchlich; dem_praxis; dem_geschlecht; id; start; ende;\n"
+
+    csv += header;
+    const answers = data.answers;
+
+    for (let answer of answers) {
+        // create demographics fields, which should be attached to every theme
+        const dem = answer.demographics;
+        let demFields = `${dem.Fach};`;
+        demFields += `${dem.Schulart};`;
+        demFields += `${dem.Lehrkraft};`;
+        demFields += `${dem.staatlich};`;
+        demFields += `${dem.kirchlich};`;
+        demFields += `${dem.unterrichtspraxis};`;
+        demFields += `${dem.geschlecht};`;
+        demFields += `${answer.uuid};`;
+        demFields += `${new Intl.DateTimeFormat("de-DE", dateOptions).format(answer.started)};`;
+        demFields += `${new Intl.DateTimeFormat("de-DE", dateOptions).format(answer.finished)};\n`;
+
+        // walk through themes:
+        for (let theme in answer.themes) {
+            let row = `"${answer.themes[theme].name}";`;
+            row += `${answer.themes[theme].interessant ? 1 : 0};`;
+            row += `${answer.themes[theme].wichtig ? 1 : 0};`;
+            row += `${answer.themes[theme].laeuft ? 1 : 0};`;
+            row += `${answer.themes[theme].sonstiges ? 1 : 0};`;
+            row += `${answer.themes[theme].neu ? 1 : 0};0;${demFields}`;
+            csv += row;
+        }
+        // walk through old themes:
+        for (let oldTheme in answer.oldThemes) {
+            let row = `"${answer.oldThemes[oldTheme]}";0;0;0;0;0;1;${demFields}`;
+            csv += row;
+        }
+    }
+
+    return Buffer.from(csv);
 }

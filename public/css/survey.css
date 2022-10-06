@@ -41,6 +41,9 @@ label {
 label.hidden {
     display: none;
 }
+.error {
+    color: #c51b1f;
+}
 .theme-wrapper {
     display: inline-block;
     width: 100%;

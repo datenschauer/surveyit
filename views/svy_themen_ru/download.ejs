@@ -19,13 +19,14 @@
         <section>
             <label>
                 Geben Sie das Passwort für den Download ein:<br />
-                <input type="password" id="password"><br />
+                <input type="password" id="password" name="password"><br />
                 <button type="submit" class="button disabled" id="download-button" disabled>download</button>
             </label>
-          <div class=<%= error ? "" : "hidden"%>>
-                <p class="error">Sie haben ein falsches Passwort eingegeben!</p>
-            </div>
         </section>
+          <div class=<%= error ? "" : "hidden"%>>
+              <p><br /></p>
+              <p class="error">Sie haben ein falsches Passwort eingegeben!</p>
+            </div>
     </form>
 
 </article>

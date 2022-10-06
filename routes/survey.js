@@ -15,6 +15,8 @@ router.get("/:survey", (req, res) => {
 
 router.get("/:survey/download", surveyController.getSurveyDataDownload);
 
+router.post("/:survey/download", surveyController.postSurveyDataDownload);
+
 router.get("/:survey/start", surveyController.getSurveyStart);
 
 router.post("/:survey/start", surveyController.postSurveyStart);
