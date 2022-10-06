@@ -184,8 +184,8 @@ function createCSV(data) {
         timeZone: 'Europe/Berlin'
     }
     let csv = "";
-    const header = "thema; th_interessant; th_wichtig; th_laeuft; th_sonstiges; th_neu; th_alt; dem_fach; " +
-        "dem_schulart; dem_lehrkraft; dem_staatlich; dem_kirchlich; dem_praxis; dem_geschlecht; id; start; ende;\n"
+    const header = "thema;th_interessant;th_wichtig;th_laeuft;th_sonstiges;th_neu;th_alt;dem_fach;" +
+        "dem_schulart;dem_lehrkraft;dem_staatlich;dem_kirchlich;dem_praxis;dem_geschlecht;id;start;ende\n"
 
     csv += header;
     const answers = data.answers;
@@ -202,7 +202,7 @@ function createCSV(data) {
         demFields += `${dem.geschlecht};`;
         demFields += `${answer.uuid};`;
         demFields += `${new Intl.DateTimeFormat("de-DE", dateOptions).format(answer.started)};`;
-        demFields += `${new Intl.DateTimeFormat("de-DE", dateOptions).format(answer.finished)};\n`;
+        demFields += `${new Intl.DateTimeFormat("de-DE", dateOptions).format(answer.finished)}\n`;
 
         // walk through themes:
         for (let theme in answer.themes) {
