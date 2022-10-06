@@ -108,7 +108,7 @@ exports.postSurveyDataDownload = (req, res) => {
         Survey.findOne({name: surveyName}).then(surveyData => {
             const bufferFile = createCSV(surveyData);
             const currentDate = new Date();
-            const dateString = `${currentDate.getFullYear()}-${currentDate.getMonth()}-${currentDate.getDate()}`
+            const dateString = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`
             const fileName = `${surveyName}_vom_${dateString}.csv`;
             res.set({
                 "Content-Type": "text/csv",
