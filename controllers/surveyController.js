@@ -206,7 +206,8 @@ function createCSV(data) {
 
         // walk through themes:
         for (let theme in answer.themes) {
-            let row = `"${answer.themes[theme].name}";`;
+            let thema = answer.themes[theme].name;
+            let row = `'${thema}';`;
             row += `${answer.themes[theme].interessant ? 1 : 0};`;
             row += `${answer.themes[theme].wichtig ? 1 : 0};`;
             row += `${answer.themes[theme].laeuft ? 1 : 0};`;
