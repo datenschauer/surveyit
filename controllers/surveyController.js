@@ -217,7 +217,7 @@ function createCSV(data) {
         }
         // walk through old themes:
         for (let oldTheme in answer.oldThemes) {
-            let row = `"${answer.oldThemes[oldTheme]}";0;0;0;0;0;1;${demFields}`;
+            let row = `'${answer.oldThemes[oldTheme]}';0;0;0;0;0;1;${demFields}`;
             csv += row;
         }
     }
